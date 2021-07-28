@@ -1,0 +1,13 @@
+{
+
+  "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["_id"]}]
+    },
+    "plugins": [
+      "security"
+    ],
+    "extends": [
+      "airbnb-base",
+      "plugin:security/recommended"
+    ]
+}
