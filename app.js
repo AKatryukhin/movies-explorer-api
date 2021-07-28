@@ -11,7 +11,6 @@ const auth = require('./middlewares/auth');
 const corsa = require('./middlewares/corsa');
 const { login, createUser, logout } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const { method } = require('./middlewares/url_validator');
 const serverError = require('./middlewares/error');
 const NotFoundError = require('./errors/not-found-err');
 const {
@@ -20,6 +19,10 @@ const {
 const { PORT = 3000 } = process.env;
 
 const app = express();
+const limiter = rateLimit({
+  windowMs: 90000,
+  max: 100,
+});
 
 app.use(cookieParser());
 app.use(helmet());
