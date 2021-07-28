@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
-// const {
-//   REG_RU,
-//   REG_EN
-// } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   nameRU: {
@@ -11,14 +7,12 @@ const movieSchema = new mongoose.Schema({
     required: true,
     minlength: 2,
     maxlength: 60,
-    // match: REG_RU
   },
   nameEN: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 60,
-    // match: REG_EN
   },
   country: {
     type: String,
