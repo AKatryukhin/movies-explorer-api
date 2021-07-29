@@ -9,7 +9,7 @@ const DuplicateError = require('../errors/duplicate-err');
 
 const { JWT_SECRET = 'dev-secret' } = process.env;
 
-module.exports.loguot = (req, res) => {
+module.exports.logout = (req, res) => {
   res.clearCookie('jwt', {
     httpOnly: true,
     sameSite: true,
