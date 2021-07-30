@@ -32,5 +32,4 @@ router.delete('/:movieId', celebrate({
   }),
 }), removeMovie);
 
-
 module.exports = router;

@@ -15,6 +15,7 @@ const NotFoundError = require('./errors/not-found-err');
 const {
   MONGO_URL,
 } = require('./utils/constants');
+
 const { PORT = 3000 } = process.env;
 
 const app = express();
@@ -66,7 +67,6 @@ app.post('/signout', logout);
 app.use('/users', auth, require('./routes/users'));
 
 app.use('/movies', auth, require('./routes/movies'));
-
 
 app.use(errorLogger);
 

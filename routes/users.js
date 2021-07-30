@@ -7,7 +7,6 @@ const {
   getProfile,
 } = require('../controllers/users');
 
-
 router.patch('/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
@@ -16,6 +15,5 @@ router.patch('/me', celebrate({
 }), updateUser);
 
 router.get('/me', getProfile);
-
 
 module.exports = router;
