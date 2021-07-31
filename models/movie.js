@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
+const { URL_VALIDATION_ERROR } = require('../utils/error-messages');
 
 const movieSchema = new mongoose.Schema({
   nameRU: {
@@ -48,7 +49,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: 'адрес должен быть ссылкой',
+      message: URL_VALIDATION_ERROR,
     },
   },
   trailer: {
@@ -56,7 +57,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: 'адрес должен быть ссылкой',
+      message: URL_VALIDATION_ERROR,
     },
   },
   thumbnail: {
@@ -64,7 +65,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: (v) => isURL(v),
-      message: 'адрес должен быть ссылкой',
+      message: URL_VALIDATION_ERROR,
     },
   },
 });

@@ -6,6 +6,12 @@ const NotFoundError = require('../errors/not-found-err');
 const AuthentificationError = require('../errors/authentification-err');
 const ValidationError = require('../errors/validation-err');
 const DuplicateError = require('../errors/duplicate-err');
+const {
+  AUTHENTIFICATION_ERROR,
+  NOT_FOUND_DATA_USER_ERROR,
+  VALIDATION_DATA_ERROR,
+  DUPLICATE_ERROR,
+} = require('../utils/error-messages');
 
 const { JWT_SECRET = 'dev-secret' } = process.env;
 
@@ -45,14 +51,14 @@ module.exports.login = (req, res, next) => {
         });
     })
     .catch(() => {
-      next(new AuthentificationError('Неправильный адрес почты или пароль'));
+      next(new AuthentificationError(AUTHENTIFICATION_ERROR));
     });
 };
 
 module.exports.getProfile = (req, res, next) => User.findOne({ _id: req.user._id })
   .then((user) => {
     if (!user) {
-      throw new NotFoundError('Пользователь с указанным _id не найден');
+      throw new NotFoundError(NOT_FOUND_DATA_USER_ERROR);
     }
     res.status(200).send(user);
   })
@@ -74,14 +80,10 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new ValidationError(
-          'Переданы некорректные данные в методы создания пользователя',
-        );
+        throw new ValidationError(VALIDATION_DATA_ERROR);
       }
       if (err.name === 'MongoError' && err.code === 11000) {
-        throw new DuplicateError(
-          'Пользователь с указанным email уже существует',
-        );
+        throw new DuplicateError(DUPLICATE_ERROR);
       }
     })
     .catch(next);
@@ -99,15 +101,13 @@ module.exports.updateUser = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь с указанным _id не найден');
+        throw new NotFoundError(NOT_FOUND_DATA_USER_ERROR);
       }
       res.status(200).send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new ValidationError(
-          'Переданы некорректные данные в методы редактирования пользователя',
-        );
+        throw new ValidationError(VALIDATION_DATA_ERROR);
       }
     })
     .catch(next);

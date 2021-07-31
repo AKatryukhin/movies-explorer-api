@@ -5,7 +5,7 @@ const { login, createUser, logout } = require('../controllers/users');
 const routerUsers = require('./users');
 const routerMovies = require('./movies');
 const NotFoundError = require('../errors/not-found-err');
-const { NOT_FOUND_PAGE_ERROR } = require('../utils/responseMesseges');
+const { NOT_FOUND_PAGE_ERROR } = require('../utils/error-messages');
 
 router.post('/signup', celebrate({
   body: Joi.object().keys({
@@ -29,7 +29,7 @@ router.use('/users', auth, routerUsers);
 router.use('/movies', auth, routerMovies);
 
 router.use('*', (req, res, next) => {
-  next(new NotFoundError('Запрошенный маршрут не найден'));
+  next(new NotFoundError(NOT_FOUND_PAGE_ERROR));
 });
 
 module.exports = router;

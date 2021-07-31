@@ -2,6 +2,11 @@ const Movie = require('../models/movie');
 const NotFoundError = require('../errors/not-found-err');
 const ValidationError = require('../errors/validation-err');
 const CopyrightError = require('../errors/copyright-err');
+const {
+  COPYRIGHT_MOVIE_ERROR,
+  VALIDATION_DATA_ERROR,
+  NOT_FOUND_DATA_MOVIE_ERROR,
+} = require('../utils/error-messages');
 
 module.exports.getMovies = (req, res, next) => {
   Movie.find({ owner: req.user._id })
@@ -42,7 +47,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.status(200).send({ movie }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new ValidationError('Переданы некорректные данные в методы создания фильма');
+        throw new ValidationError(VALIDATION_DATA_ERROR);
       }
     })
     .catch(next);
@@ -52,10 +57,10 @@ module.exports.removeMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм с указанным _id не найден');
+        throw new NotFoundError(NOT_FOUND_DATA_MOVIE_ERROR);
       }
       if (String(movie.owner) !== req.user._id) {
-        throw new CopyrightError('Невозможно удалить чужой фильм');
+        throw new CopyrightError(COPYRIGHT_MOVIE_ERROR);
       }
       Movie.deleteOne({ _id: movie._id })
         .then(() => {
