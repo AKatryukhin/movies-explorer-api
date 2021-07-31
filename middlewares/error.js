@@ -1,4 +1,4 @@
-const serverError = (err, req, res) => {
+const serverError = (err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res
     .status(statusCode)
@@ -7,6 +7,7 @@ const serverError = (err, req, res) => {
         ? 'На сервере произошла ошибка'
         : message,
     });
+  next();
 };
 
 module.exports = serverError;

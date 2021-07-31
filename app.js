@@ -3,22 +3,17 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const auth = require('./middlewares/auth');
 const corsa = require('./middlewares/corsa');
-const { login, createUser, logout } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const serverError = require('./middlewares/error');
-const NotFoundError = require('./errors/not-found-err');
+const router = require('./routes/index');
 
-const { NODE_ENV, BASE_URL } = process.env;
+const { PORT = 3000, NODE_ENV, BASE_URL } = process.env;
 const {
   MONGO_URL,
 } = require('./utils/constants');
-
-const { PORT = 3000 } = process.env;
 
 const app = express();
 const limiter = rateLimit({
@@ -49,34 +44,10 @@ app.use(corsa);
 app.use(requestLogger);
 app.use(limiter);
 
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-    name: Joi.string().min(2).max(30),
-  }).unknown(true),
-}), createUser);
-
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }),
-}), login);
-
-app.post('/signout', logout);
-
-app.use('/users', auth, require('./routes/users'));
-
-app.use('/movies', auth, require('./routes/movies'));
+app.use('/', router);
 
 app.use(errorLogger);
-
 app.use(errors());
-
-app.use('/', (req, res, next) => {
-  next(new NotFoundError('Запрошенный маршрут не найден'));
-});
 
 app.use((err, req, res, next) => serverError(err, req, res, next));
 
