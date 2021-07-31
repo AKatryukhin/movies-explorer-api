@@ -12,6 +12,8 @@ const { login, createUser, logout } = require('./controllers/users');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const serverError = require('./middlewares/error');
 const NotFoundError = require('./errors/not-found-err');
+
+const { NODE_ENV, BASE_URL } = process.env;
 const {
   MONGO_URL,
 } = require('./utils/constants');
@@ -32,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 async function start() {
   try {
     app.listen(PORT);
-    await mongoose.connect(MONGO_URL, {
+    await mongoose.connect(NODE_ENV === 'production' ? BASE_URL : MONGO_URL, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useFindAndModify: false,
