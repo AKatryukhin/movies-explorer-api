@@ -22,13 +22,13 @@ router.post('/', celebrate({
     duration: Joi.number().integer().required(),
     year: Joi.string().min(4).max(4).required(),
     description: Joi.string().min(2).max(300).required(),
-    movieId: Joi.string().length(24).hex(),
+    movieId: Joi.string().required(),
   }),
 }), createMovie);
 
-router.delete('/:movieId', celebrate({
+router.delete('/:_id', celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().length(24).hex(),
+    _id: Joi.string().length(24).hex(),
   }),
 }), removeMovie);
 
