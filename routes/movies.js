@@ -22,7 +22,7 @@ router.post('/', celebrate({
     duration: Joi.number().integer().required(),
     year: Joi.string().min(4).max(4).required(),
     description: Joi.string().min(2).max(300).required(),
-    movieId: Joi.string().min(1).required(),
+    movieId: Joi.number().integer().min(1).required(),
   }),
 }), createMovie);
 
