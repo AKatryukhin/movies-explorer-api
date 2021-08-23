@@ -29,6 +29,7 @@ module.exports.createMovie = (req, res, next) => {
     movieId,
   } = req.body;
   const owner = req.user._id;
+  console.log(owner);
   Movie.create({
     country,
     director,
@@ -45,7 +46,6 @@ module.exports.createMovie = (req, res, next) => {
   })
     .then((movie) => res.status(200).send({ movie }))
     .catch((err) => {
-      console.log(owner);
       if (err.name === 'ValidationError') {
         throw new ValidationError(VALIDATION_DATA_ERROR);
       }
