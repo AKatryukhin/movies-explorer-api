@@ -53,7 +53,7 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.removeMovie = (req, res, next) => {
-  Movie.findById(req.params.movieId)
+  Movie.findByIdAndRemove(req.params.movieId)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError(NOT_FOUND_DATA_MOVIE_ERROR);
@@ -61,11 +61,11 @@ module.exports.removeMovie = (req, res, next) => {
       if (String(movie.owner) !== req.user._id) {
         throw new CopyrightError(COPYRIGHT_MOVIE_ERROR);
       }
-      Movie.deleteOne(movie._id)
-        .then(() => {
-          res.status(200).send({ movie });
-        })
-        .catch(next);
+      // Movie.deleteOne(movie._id)
+      //   .then(() => {
+      //     res.status(200).send({ movie });
+      //   })
+      //   .catch(next);
     })
     .catch(next);
 };
