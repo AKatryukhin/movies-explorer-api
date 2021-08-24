@@ -53,7 +53,7 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.removeMovie = (req, res, next) => {
-  Movie.findById(req.params.id)
+  Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError(NOT_FOUND_DATA_MOVIE_ERROR);
@@ -61,7 +61,7 @@ module.exports.removeMovie = (req, res, next) => {
       if (String(movie.owner) !== req.user._id) {
         throw new CopyrightError(COPYRIGHT_MOVIE_ERROR);
       }
-      Movie.deleteOne({ _id: movie._id })
+      Movie.deleteOne(movie._id)
         .then(() => {
           res.status(200).send({ movie });
         })
