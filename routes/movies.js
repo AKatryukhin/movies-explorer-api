@@ -21,7 +21,7 @@ router.post('/', celebrate({
     director: Joi.string().required(),
     duration: Joi.number().integer().required(),
     year: Joi.string().min(4).max(4).required(),
-    description: Joi.string().min(2).max(1000).required(),
+    description: Joi.string().min(2).max(3000).required(),
     movieId: Joi.number().integer().min(1).required(),
   }),
 }), createMovie);
