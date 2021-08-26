@@ -22,7 +22,7 @@ module.exports.logout = (req, res, next) => {
       res
         .clearCookie('jwt', {
           httpOnly: true,
-          sameSite: true,
+          // sameSite: true,
         })
         .status(200)
         .send(user);
