@@ -4,6 +4,8 @@ const ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS';
 
 const allowedCors = [
   'localhost:3000',
+  'https://movies-search.nomoredomains.club',
+  'http://movies-search.nomoredomains.club',
 ];
 module.exports = {
   REG_LINK,
